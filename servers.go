@@ -15,8 +15,8 @@ type Response struct {
 	FraudScore float64 `json:"fraud_score"`
 }
 
-func startServer(port string, name string) {
-	db := InitDB(name)
+func startServer(port string) {
+	db := InitDB()
 	defer db.Close()
 
 	http.HandleFunc("/ready", func(w http.ResponseWriter, r *http.Request) {
@@ -33,12 +33,6 @@ func startServer(port string, name string) {
 		var req Request
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-
-		datasets, err := GetAllDatasets(db)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
