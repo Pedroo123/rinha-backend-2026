@@ -1,4 +1,4 @@
-package main
+package rinhabackend2026
 
 import (
 	"bytes"
